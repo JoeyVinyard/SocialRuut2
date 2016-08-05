@@ -1,9 +1,18 @@
+var squares = [];
+var localSquareID = 0;
 var square = {
-	id		: 0,
+	i		: 0,
 	gridXPos	: 0,
 	gridYPos	: 0,
 	drawXPos	: 0,
 	drawYPos	: 0,
-	color		: "#000000"
+	drawColor	: "#000000"
 }
-var clients = [];
+function createNewSquare(info){
+	var newSquare = Object.create(square);
+	newSquare.i = info.i;
+	newSquare.gridXPos = info.xp;
+	newSquare.gridYPos = info.yp;
+	newSquare.drawColor = info.col;
+	squares.push(newSquare);
+}
