@@ -6,9 +6,9 @@ var io = require('socket.io')(http);
 var client = {
 	i		: 0,
 	socki 		: 0,
-	xp		: genPos(),
-	yp		: genPos(),
-	col		: genColor()
+	xp		: 0,
+	yp		: 0,
+	col		: 0
 }
 var clients = [];//Initialize a new array to hold all the clients
 var newClient;
@@ -18,40 +18,22 @@ io.on('connection', function(user){
 	newClient = Object.create(client);
 	newClient.i = clients.length + 1;
 	newClient.socki = user.id;
+	newClient.xp = genPos();
+	newClient.yp = genPos();
+	newClient.col = genColor();
 	clients.push(newClient);
 	user.emit('initUser', clients);
 	io.emit('addNewUser', newClient);
-	//Add the new client to the end of the client list
-
-	// client.on('clientInfo', function(pos){
-	// 	io.emit('clientInfo', pos);
-	// });
-	// //Fires when the client moves its mouse
-	// client.on('mouseMove', function(mousePos){
-	// 	//Loop through the clients and transmit to all of them that a client has moved
-	// 	for(items in clients){
-	// 		//Ignores the client that moved its mouse
-	// 		if(clients[items] != client.id){
-	// 			var idMouse = mousePos;
-	// 			newID = Number((clients.indexOf(client.id) + 1));
-	// 			idMouse.id = newID
-	// 			io.sockets.connected[clients[items]].emit('clientMoved', idMouse);
-	// 		}
-	// 	}
-	// });
-	// //Fires when a client disconnects
-	// user.on('disconnect', function(){
-	// 	console.log("A user disconnected")
-	// 	var indexOfLeave = clients.indexOf(user.id);
-	// 	//Removes the disconnected client from the list
-	// 	clients.splice(indexOfLeave, 1)
-	// 	for(items in clients){
-	// 		if(clients[items].sockI != user.id){
-	// 			//Tells each of the remaining clients that somebody left
-	// 			io.sockets.connected[clients[items].sockI].emit('userLeft', indexOfLeave);
-	// 		}
-	// 	}
-	// })
+	user.on('disconnect', function(){
+		console.log("A user disconnected")
+		for(var i = 0; i < clients.length; i++){
+			if(user.id == clients[i].socki){
+				var indexOfLeave = i;
+			}
+		}
+		clients.splice(indexOfLeave, 1);
+		io.emit('userLeft', indexOfLeave);
+	})
 });
 
 function genPos(){

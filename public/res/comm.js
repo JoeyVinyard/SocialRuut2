@@ -11,5 +11,6 @@ server.on('addNewUser', function(clientInfo){
 	createNewSquare(clientInfo);
 });
 server.on('userLeft', function(index){
+	console.log("removing user in index " + index);
 	squares.splice(index, 1);
 });
