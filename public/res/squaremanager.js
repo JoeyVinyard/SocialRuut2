@@ -1,5 +1,6 @@
 var squares = [];
 var localSquareID = 0;
+var localSquare;
 var square = {
 	i		: 0,
 	gridXPos	: 0,
@@ -14,5 +15,6 @@ function createNewSquare(info){
 	newSquare.gridXPos = info.xp;
 	newSquare.gridYPos = info.yp;
 	newSquare.drawColor = info.col;
+	console.log("pushing naaaa");
 	squares.push(newSquare);
 }

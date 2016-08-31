@@ -23,6 +23,7 @@ io.on('connection', function(user){
 	newClient.col = genColor();
 	clients.push(newClient);
 	user.emit('initUser', clients);
+	console.log("adding new user")
 	io.emit('addNewUser', newClient);
 	user.on('disconnect', function(){
 		console.log("A user disconnected")
